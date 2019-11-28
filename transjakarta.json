@@ -1,0 +1,122 @@
+{
+    "data":
+    [
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822631",
+                "latitude": "-6.177770"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823071",
+                "latitude": "-6.172153"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822668",
+                "latitude": "-6.175363"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823035",
+                "latitude": "-6.173739"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822705",
+                "latitude": "-6.172262"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823016",
+                "latitude": "-6.176475"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822411",
+                "latitude": "-6.171259"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.822980",
+                "latitude": "-6.177880"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.821585",
+                "latitude": "-6.172080"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823071",
+                "latitude": "-6.179922"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822411",
+                "latitude": "-6.171259"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.822980",
+                "latitude": "-6.177880"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822705",
+                "latitude": "-6.172262"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823016",
+                "latitude": "-6.176475"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822668",
+                "latitude": "-6.175363"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823035",
+                "latitude": "-6.173739"
+            }
+            
+        ],
+        [
+            {
+                "buscode": "2.F392",
+                "longitude": "106.822631",
+                "latitude": "-6.177770"
+            },
+            {
+                "buscode": "WIW1",
+                "longitude": "106.823071",
+                "latitude": "-6.172153"
+            }
+            
+        ]
+    ]
+}

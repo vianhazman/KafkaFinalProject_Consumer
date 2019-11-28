@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>Kafka Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    </head>
+    <body>
+        <div class="container ">
+            <div class="card my-4" style="max-width:1000px">
+                <div class="card-header">
+                    Real Time Transjakarta Location
+                </div>
+                <div class="card-body">
+                    <div id='map' style='max-width: 1000px; height: 500px;'></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <table id="myTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Color</th>
+                        <th>Bus Id</th>
+                        <th>Long, Lat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2lrYW5zZXRpYWppIiwiYSI6ImNrM2gzZXdsbzAyZDEzZHJrdTl4OWl5NXIifQ.0WF3nk0Yyf-GfdJkDbZoIA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            zoom: 12,
+            center: [106.827159, -6.173671]
+        });
+
+        function createMarker(text,color){
+            var marker = new mapboxgl.Marker({color:color});
+            var popup = new mapboxgl.Popup({ })
+                .setText(text);
+            marker.setPopup(popup)
+            return marker
+        }
+
+        function moveMarker(m, lngLat) {
+            m.setLngLat(lngLat);
+            m.addTo(map);
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        buses = {}
+
+        function resetTable(){
+            var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+            while(tableRef.hasChildNodes()){
+                tableRef.removeChild(tableRef.firstChild);
+            }
+            for (idx in buses){
+                bus = buses[idx]
+                var row   = tableRef.insertRow(tableRef.rows.length);
+                var colorCell  = row.insertCell(0);
+                colorCell.innerHTML="<span class='badge badge-white' style='color:"+bus["color"]+"'>"+bus["color"]+"</span>"
+                var buscodeCell  = row.insertCell(1);
+                var text  = document.createTextNode(bus["buscode"])
+                buscodeCell.appendChild(text);
+                var lngLatCell  = row.insertCell(2);
+                var text  = document.createTextNode(bus["marker"].getLngLat().toArray())
+                lngLatCell.appendChild(text);
+            }
+        }
+    
+        var socket = new WebSocket(
+            'ws://' + window.location.host +
+            '/visualization/');
+        socket.onmessage = function(event) {
+            var dataJson = JSON.parse(event.data);
+            for (idx in dataJson["message"]){
+                data = dataJson["message"][idx];
+                if (buses[data["buscode"]]==null){
+                    color = getRandomColor()
+                    buses[data["buscode"]] = 
+                    {
+                        "marker":createMarker(data["buscode"],color),
+                        "color":color,
+                        "buscode":data["buscode"]
+                    }
+                }
+                lngLat = [data["longitude"],data["latitude"]];
+                moveMarker(buses[data["buscode"]]["marker"], lngLat);
+            }
+            console.log(buses)
+            resetTable()
+        };
+    </script>
+</html>

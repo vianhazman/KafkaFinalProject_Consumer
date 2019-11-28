@@ -1,0 +1,6 @@
+django
+requests
+kafka-python
+websocket-client
+channels
+channels_redis
