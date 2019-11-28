@@ -13,7 +13,7 @@ with open('tracking.json') as json_file:
     while True:
         for p in data['data']:
             print(p)
-            producer.send('test12', value=p)
+            producer.send('trackingtj', value=p)
             sleep(2)
 
 

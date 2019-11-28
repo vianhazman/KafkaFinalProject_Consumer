@@ -13,7 +13,7 @@ tripThread = None
 
 def tracking_thread():
     consumer = KafkaConsumer(
-        'test12',
+        'trackingtj',
         bootstrap_servers=['localhost:9092'],
         auto_offset_reset='earliest',
         enable_auto_commit=True,
@@ -29,7 +29,7 @@ def tracking_thread():
 
 def trip_thread():
     consumer = KafkaConsumer(
-        'testkafka',
+        'triptj',
         bootstrap_servers=['localhost:9092'],
         auto_offset_reset='earliest',
         enable_auto_commit=True,

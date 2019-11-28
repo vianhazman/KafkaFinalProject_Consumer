@@ -13,7 +13,7 @@ with open('trip.json') as json_file:
     while True:
         for p in data['data']:
             print(p)
-            producer.send('testkafka', value=p)
+            producer.send('triptj', value=p)
             sleep(2)
 
 
