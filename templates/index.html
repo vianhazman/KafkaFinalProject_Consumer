@@ -78,9 +78,9 @@
                 var row   = tableRef.insertRow(tableRef.rows.length);
                 var colorCell  = row.insertCell(0);
                 colorCell.innerHTML="<span class='badge badge-white' style='color:"+bus["color"]+"'>"+bus["color"]+"</span>"
-                var buscodeCell  = row.insertCell(1);
-                var text  = document.createTextNode(bus["buscode"])
-                buscodeCell.appendChild(text);
+                var trip_idCell  = row.insertCell(1);
+                var text  = document.createTextNode(bus["trip_id"])
+                trip_idCell.appendChild(text);
                 var lngLatCell  = row.insertCell(2);
                 var text  = document.createTextNode(bus["marker"].getLngLat().toArray())
                 lngLatCell.appendChild(text);
@@ -94,17 +94,17 @@
             var dataJson = JSON.parse(event.data);
             for (idx in dataJson["message"]){
                 data = dataJson["message"][idx];
-                if (buses[data["buscode"]]==null){
+                if (buses[data["trip_id"]]==null){
                     color = getRandomColor()
-                    buses[data["buscode"]] = 
+                    buses[data["trip_id"]] = 
                     {
-                        "marker":createMarker(data["buscode"],color),
+                        "marker":createMarker(data["trip_id"],color),
                         "color":color,
-                        "buscode":data["buscode"]
+                        "trip_id":data["trip_id"]
                     }
                 }
                 lngLat = [data["longitude"],data["latitude"]];
-                moveMarker(buses[data["buscode"]]["marker"], lngLat);
+                moveMarker(buses[data["trip_id"]]["marker"], lngLat);
             }
             console.log(buses)
             resetTable()
