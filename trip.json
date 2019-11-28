@@ -1,0 +1,36 @@
+{
+    "data": [
+        [
+            {
+                "trip_id": "2.F392",
+                "buscode": "TSW 018",
+                "koridor": "0",
+                "status": "ON TRIP"
+            },
+            {
+                "trip_id": "2.F392",
+                "buscode": "TSW 019",
+                "koridor": "0",
+                "status": "ON TRIP"
+            },
+            {
+                "trip_id": "2.K003",
+                "buscode": "TSW 020",
+                "koridor": "2K",
+                "status": "ON TRIP"
+            },
+            {
+                "trip_id": "8.D002",
+                "buscode": "    ",
+                "koridor": "8D",
+                "status": "ON TRIP"
+            },
+            {
+                "trip_id": "11.Q001",
+                "buscode": "TSW 063",
+                "koridor": "11",
+                "status": "ON TRIP"
+            }
+        ]
+    ]
+}

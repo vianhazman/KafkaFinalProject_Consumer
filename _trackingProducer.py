@@ -7,7 +7,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
     value_serializer=lambda x: 
     dumps(x).encode('utf-8'))
 
-with open('transjakarta.json') as json_file:
+with open('tracking.json') as json_file:
     data = json.load(json_file)
     
     while True:

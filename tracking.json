@@ -3,12 +3,12 @@
     [
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822631",
                 "latitude": "-6.177770"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823071",
                 "latitude": "-6.172153"
             }
@@ -16,12 +16,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822668",
                 "latitude": "-6.175363"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823035",
                 "latitude": "-6.173739"
             }
@@ -29,12 +29,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822705",
                 "latitude": "-6.172262"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823016",
                 "latitude": "-6.176475"
             }
@@ -42,12 +42,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822411",
                 "latitude": "-6.171259"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.822980",
                 "latitude": "-6.177880"
             }
@@ -55,12 +55,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.821585",
                 "latitude": "-6.172080"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823071",
                 "latitude": "-6.179922"
             }
@@ -68,12 +68,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822411",
                 "latitude": "-6.171259"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.822980",
                 "latitude": "-6.177880"
             }
@@ -81,12 +81,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822705",
                 "latitude": "-6.172262"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823016",
                 "latitude": "-6.176475"
             }
@@ -94,12 +94,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822668",
                 "latitude": "-6.175363"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823035",
                 "latitude": "-6.173739"
             }
@@ -107,12 +107,12 @@
         ],
         [
             {
-                "trip_id": "2.F392",
+                "buscode": "TSW 018",
                 "longitude": "106.822631",
                 "latitude": "-6.177770"
             },
             {
-                "trip_id": "WIW1",
+                "buscode": "TSW 063",
                 "longitude": "106.823071",
                 "latitude": "-6.172153"
             }

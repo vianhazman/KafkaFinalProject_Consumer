@@ -8,9 +8,10 @@ from asgiref.sync import async_to_sync
 from kafka import KafkaConsumer
 from json import loads
 
-thread = None
+trackingThread = None
+tripThread = None
 
-def background_thread():
+def tracking_thread():
     consumer = KafkaConsumer(
         'test12',
         bootstrap_servers=['localhost:9092'],
@@ -21,16 +22,37 @@ def background_thread():
     for message in consumer:
         try:
             channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)("events", {"type": "chat.message","message": message.value})
+            async_to_sync(channel_layer.group_send)("events", {"type": "tracking.message","message": message.value})
+        except Exception as e:
+            print(str(e))
+        time.sleep(2)
+
+def trip_thread():
+    consumer = KafkaConsumer(
+        'testkafka',
+        bootstrap_servers=['localhost:9092'],
+        auto_offset_reset='earliest',
+        enable_auto_commit=True,
+        group_id='my-group',
+        value_deserializer=lambda x: loads(x.decode('utf-8')))
+    for message in consumer:
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": message.value})
         except Exception as e:
             print(str(e))
         time.sleep(2)
 
 def index(request):
-    print(request.get_host())
-    global thread
-    if thread is None:
-        thread = Thread(target=background_thread)
+    global trackingThread
+    if trackingThread is None:
+        thread = Thread(target=tracking_thread)
+        thread.daemon = True
+        thread.start()
+
+    global tripThread
+    if tripThread is None:
+        thread = Thread(target=trip_thread)
         thread.daemon = True
         thread.start()
 

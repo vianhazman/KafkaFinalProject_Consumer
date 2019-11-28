@@ -21,11 +21,21 @@ class VisualizationCustomer(WebsocketConsumer):
             'message': message
         }))
 
-    def chat_message(self, text_data):
+    def trip_message(self, text_data):
         text_data_json = text_data
         message = text_data_json['message']
 
         self.send(text_data=json.dumps({
+            'type':'trip',
+            'message': message
+        }))
+
+    def tracking_message(self, text_data):
+        text_data_json = text_data
+        message = text_data_json['message']
+
+        self.send(text_data=json.dumps({
+            'type':'tracking',
             'message': message
         }))
 

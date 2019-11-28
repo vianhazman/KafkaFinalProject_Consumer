@@ -8,35 +8,57 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+        <link href='https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css' rel='stylesheet'/>
+        <script src='https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js'></script>
     </head>
     <body>
-        <div class="container ">
-            <div class="card my-4" style="max-width:1000px">
+        <div class="container">
+            <div class="card my-4" style="">
                 <div class="card-header">
                     Real Time Transjakarta Location
                 </div>
                 <div class="card-body">
-                    <div id='map' style='max-width: 1000px; height: 500px;'></div>
+                    <div class="row">
+                        <div class="col-md-5 mx-auto my-2">
+                            <table id="myTable" class="table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Follow</th>
+                                        <th>Bus Code</th>
+                                        <th>Trip Id</th>
+                                        <th>Koridor</th>
+                                        <th>Status</th>
+                                        <!--<th>Long, Lat</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-7 mx-auto my-2">
+                            <div id='map'  style='height: 500px;'></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <table id="myTable" class="table">
-                <thead>
-                    <tr>
-                        <th>Color</th>
-                        <th>Bus Id</th>
-                        <th>Long, Lat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
     </body>
     <script>
+        var table = null
+        $(document).ready( function () {
+            table = $('#myTable').DataTable({
+                "order": [[ 1, "asc" ]],
+                "columnDefs": [ { "orderable": false, "targets": [0] }]
+            });
+        } );
+        
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lrYW5zZXRpYWppIiwiYSI6ImNrM2gzZXdsbzAyZDEzZHJrdTl4OWl5NXIifQ.0WF3nk0Yyf-GfdJkDbZoIA';
+
+        tracking = {}
+        trip = {}
+        following = null
+
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
@@ -44,9 +66,21 @@
             center: [106.827159, -6.173671]
         });
 
+        map.on('click', function () {
+            following = null
+        })
+
+        map.on('dragstart', function () {
+            following = null
+        })
+
+        map.on('zoomstart', function () {
+            following = null
+        })
+
         function createMarker(text,color){
             var marker = new mapboxgl.Marker({color:color});
-            var popup = new mapboxgl.Popup({ })
+            var popup = new mapboxgl.Popup({ closeButton:false})
                 .setText(text);
             marker.setPopup(popup)
             return marker
@@ -66,24 +100,67 @@
             return color;
         }
 
-        buses = {}
+        function followBus(buscode){
+            if (following!=null && following!=buscode){
+                tracking[following]["marker"].togglePopup()
+            }
+            map.flyTo(
+                {
+                    center: tracking[buscode]["marker"].getLngLat().toArray(),
+                    zoom:15
+                }
+            )
+            tracking[buscode]["marker"].togglePopup()
+            following = buscode
+        }
+
+        function resetTable1(){
+            table.clear()
+            for (idx in tracking){
+                bus = tracking[idx]
+                table.row.add(
+                    [
+                        `<a href="#" onclick="followBus('${bus["buscode"]}')" class='btn btn-light btn-sm' style=''>Follow</a>`,
+                        `<a href="#" onclick="followBus('${bus["buscode"]}')" class='badge badge-white' style='color:${bus["color"]}'>${bus["buscode"]}</a>`,
+                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["trip_id"]:"-",
+                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["koridor"]:"-",
+                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["status"]:"-"
+                    ]
+                )
+            }
+            table.draw()
+        }
 
         function resetTable(){
             var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
             while(tableRef.hasChildNodes()){
                 tableRef.removeChild(tableRef.firstChild);
             }
-            for (idx in buses){
-                bus = buses[idx]
+            for (idx in tracking){
+                bus = tracking[idx]
                 var row   = tableRef.insertRow(tableRef.rows.length);
+
                 var colorCell  = row.insertCell(0);
-                colorCell.innerHTML="<span class='badge badge-white' style='color:"+bus["color"]+"'>"+bus["color"]+"</span>"
-                var trip_idCell  = row.insertCell(1);
-                var text  = document.createTextNode(bus["trip_id"])
-                trip_idCell.appendChild(text);
-                var lngLatCell  = row.insertCell(2);
-                var text  = document.createTextNode(bus["marker"].getLngLat().toArray())
-                lngLatCell.appendChild(text);
+                colorCell.innerHTML=`<a href="#" onclick="followBus('${bus["buscode"]}')" class='btn btn-light btn-sm' style=''>Follow</a>`
+
+                var colorCell  = row.insertCell(1);
+                colorCell.innerHTML=`<a href="#" onclick="followBus('${bus["buscode"]}')" class='badge badge-white' style='color:${bus["color"]}'>${bus["buscode"]}</a>`
+                
+                var buscodeCell  = row.insertCell(2);
+                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["trip_id"]:"-"
+                buscodeCell.innerHTML = text
+                
+                var buscodeCell  = row.insertCell(3);
+                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["koridor"]:"-"
+                buscodeCell.innerHTML = text
+                
+                var buscodeCell  = row.insertCell(4);
+                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["status"]:"-"
+                buscodeCell.innerHTML = text
+                
+                //var lngLatCell  = row.insertCell(5);
+                //var text  = document.createTextNode(bus["marker"].getLngLat().toArray())
+                //lngLatCell.appendChild(text);
             }
         }
     
@@ -92,22 +169,34 @@
             '/visualization/');
         socket.onmessage = function(event) {
             var dataJson = JSON.parse(event.data);
-            for (idx in dataJson["message"]){
-                data = dataJson["message"][idx];
-                if (buses[data["trip_id"]]==null){
-                    color = getRandomColor()
-                    buses[data["trip_id"]] = 
-                    {
-                        "marker":createMarker(data["trip_id"],color),
-                        "color":color,
-                        "trip_id":data["trip_id"]
+            if (dataJson["type"]==="tracking"){
+                for (idx in dataJson["message"]){
+                    data = dataJson["message"][idx];
+                    if (tracking[data["buscode"]]==null){
+                        color = getRandomColor()
+                        tracking[data["buscode"]] = 
+                        {
+                            "marker":createMarker(data["buscode"],color),
+                            "color":color,
+                            "buscode":data["buscode"]
+                        }
+                    }
+                    lngLat = [data["longitude"],data["latitude"]];
+                    moveMarker(tracking[data["buscode"]]["marker"], lngLat);
+                    if (following === data["buscode"]){
+                        followBus(data["buscode"])
                     }
                 }
-                lngLat = [data["longitude"],data["latitude"]];
-                moveMarker(buses[data["trip_id"]]["marker"], lngLat);
             }
-            console.log(buses)
-            resetTable()
+            else if (dataJson["type"]==="trip"){
+                for (idx in dataJson["message"]){
+                    data = dataJson["message"][idx];
+                    trip[data["buscode"]]=data
+                }
+            }
+            console.log(tracking)
+            console.log(trip)
+            resetTable1()
         };
     </script>
 </html>
