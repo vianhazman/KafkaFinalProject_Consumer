@@ -27,7 +27,6 @@
                                         <th>Bus Code</th>
                                         <th>Trip Id</th>
                                         <th>Koridor</th>
-                                        <th>Status</th>
                                         <!--<th>Long, Lat</th>-->
                                     </tr>
                                 </thead>
@@ -100,69 +99,36 @@
             return color;
         }
 
-        function followBus(buscode){
-            if (following!=null && following!=buscode){
+        function followBus(bus_code){
+            if (following!=null && following!=bus_code){
                 tracking[following]["marker"].togglePopup()
             }
             map.flyTo(
                 {
-                    center: tracking[buscode]["marker"].getLngLat().toArray(),
+                    center: tracking[bus_code]["marker"].getLngLat().toArray(),
                     zoom:15
                 }
             )
-            tracking[buscode]["marker"].togglePopup()
-            following = buscode
+            tracking[bus_code]["marker"].togglePopup()
+            following = bus_code
         }
 
-        function resetTable1(){
+        function resetTable(){
             table.clear()
             for (idx in tracking){
                 bus = tracking[idx]
                 table.row.add(
                     [
-                        `<a href="#" onclick="followBus('${bus["buscode"]}')" class='btn btn-light btn-sm' style=''>Follow</a>`,
-                        `<a href="#" onclick="followBus('${bus["buscode"]}')" class='badge badge-white' style='color:${bus["color"]}'>${bus["buscode"]}</a>`,
-                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["trip_id"]:"-",
-                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["koridor"]:"-",
-                        (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["status"]:"-"
+                        `<a href="#" onclick="followBus('${bus["bus_code"]}')" class='btn btn-light btn-sm' style=''>Follow</a>`,
+                        `<a href="#" onclick="followBus('${bus["bus_code"]}')" class='badge badge-white' style='color:${bus["color"]}'>${bus["bus_code"]}</a>`,
+                        (typeof trip[bus["bus_code"]]!=='undefined')?trip[bus["bus_code"]]["trip_id"]:"-",
+                        (typeof trip[bus["bus_code"]]!=='undefined')?trip[bus["bus_code"]]["koridor"]:"-",
                     ]
                 )
             }
             table.draw()
         }
 
-        function resetTable(){
-            var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-            while(tableRef.hasChildNodes()){
-                tableRef.removeChild(tableRef.firstChild);
-            }
-            for (idx in tracking){
-                bus = tracking[idx]
-                var row   = tableRef.insertRow(tableRef.rows.length);
-
-                var colorCell  = row.insertCell(0);
-                colorCell.innerHTML=`<a href="#" onclick="followBus('${bus["buscode"]}')" class='btn btn-light btn-sm' style=''>Follow</a>`
-
-                var colorCell  = row.insertCell(1);
-                colorCell.innerHTML=`<a href="#" onclick="followBus('${bus["buscode"]}')" class='badge badge-white' style='color:${bus["color"]}'>${bus["buscode"]}</a>`
-                
-                var buscodeCell  = row.insertCell(2);
-                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["trip_id"]:"-"
-                buscodeCell.innerHTML = text
-                
-                var buscodeCell  = row.insertCell(3);
-                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["koridor"]:"-"
-                buscodeCell.innerHTML = text
-                
-                var buscodeCell  = row.insertCell(4);
-                var text  = (typeof trip[bus["buscode"]]!=='undefined')?trip[bus["buscode"]]["status"]:"-"
-                buscodeCell.innerHTML = text
-                
-                //var lngLatCell  = row.insertCell(5);
-                //var text  = document.createTextNode(bus["marker"].getLngLat().toArray())
-                //lngLatCell.appendChild(text);
-            }
-        }
     
         var socket = new WebSocket(
             'ws://' + window.location.host +
@@ -172,31 +138,31 @@
             if (dataJson["type"]==="tracking"){
                 for (idx in dataJson["message"]){
                     data = dataJson["message"][idx];
-                    if (tracking[data["buscode"]]==null){
+                    if (tracking[data["bus_code"]]==null){
                         color = getRandomColor()
-                        tracking[data["buscode"]] = 
+                        tracking[data["bus_code"]] = 
                         {
-                            "marker":createMarker(data["buscode"],color),
+                            "marker":createMarker(data["bus_code"],color),
                             "color":color,
-                            "buscode":data["buscode"]
+                            "bus_code":data["bus_code"]
                         }
                     }
-                    lngLat = [data["longitude"],data["latitude"]];
-                    moveMarker(tracking[data["buscode"]]["marker"], lngLat);
-                    if (following === data["buscode"]){
-                        followBus(data["buscode"])
+                    lngLat = [data["long"],data["lat"]];
+                    moveMarker(tracking[data["bus_code"]]["marker"], lngLat);
+                    if (following === data["bus_code"]){
+                        followBus(data["bus_code"])
                     }
                 }
             }
             else if (dataJson["type"]==="trip"){
                 for (idx in dataJson["message"]){
                     data = dataJson["message"][idx];
-                    trip[data["buscode"]]=data
+                    trip[data["bus_code"]]=data
                 }
             }
             console.log(tracking)
             console.log(trip)
-            resetTable1()
+            resetTable()
         };
     </script>
 </html>

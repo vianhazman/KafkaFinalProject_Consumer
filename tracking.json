@@ -3,118 +3,118 @@
     [
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822631",
-                "latitude": "-6.177770"
+                "bus_code": "TSW 018",
+                "long": "106.822631",
+                "lat": "-6.177770"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823071",
-                "latitude": "-6.172153"
+                "bus_code": "TSW 063",
+                "long": "106.823071",
+                "lat": "-6.172153"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822668",
-                "latitude": "-6.175363"
+                "bus_code": "TSW 018",
+                "long": "106.822668",
+                "lat": "-6.175363"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823035",
-                "latitude": "-6.173739"
+                "bus_code": "TSW 063",
+                "long": "106.823035",
+                "lat": "-6.173739"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822705",
-                "latitude": "-6.172262"
+                "bus_code": "TSW 018",
+                "long": "106.822705",
+                "lat": "-6.172262"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823016",
-                "latitude": "-6.176475"
+                "bus_code": "TSW 063",
+                "long": "106.823016",
+                "lat": "-6.176475"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822411",
-                "latitude": "-6.171259"
+                "bus_code": "TSW 018",
+                "long": "106.822411",
+                "lat": "-6.171259"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.822980",
-                "latitude": "-6.177880"
+                "bus_code": "TSW 063",
+                "long": "106.822980",
+                "lat": "-6.177880"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.821585",
-                "latitude": "-6.172080"
+                "bus_code": "TSW 018",
+                "long": "106.821585",
+                "lat": "-6.172080"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823071",
-                "latitude": "-6.179922"
+                "bus_code": "TSW 063",
+                "long": "106.823071",
+                "lat": "-6.179922"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822411",
-                "latitude": "-6.171259"
+                "bus_code": "TSW 018",
+                "long": "106.822411",
+                "lat": "-6.171259"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.822980",
-                "latitude": "-6.177880"
+                "bus_code": "TSW 063",
+                "long": "106.822980",
+                "lat": "-6.177880"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822705",
-                "latitude": "-6.172262"
+                "bus_code": "TSW 018",
+                "long": "106.822705",
+                "lat": "-6.172262"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823016",
-                "latitude": "-6.176475"
+                "bus_code": "TSW 063",
+                "long": "106.823016",
+                "lat": "-6.176475"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822668",
-                "latitude": "-6.175363"
+                "bus_code": "TSW 018",
+                "long": "106.822668",
+                "lat": "-6.175363"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823035",
-                "latitude": "-6.173739"
+                "bus_code": "TSW 063",
+                "long": "106.823035",
+                "lat": "-6.173739"
             }
             
         ],
         [
             {
-                "buscode": "TSW 018",
-                "longitude": "106.822631",
-                "latitude": "-6.177770"
+                "bus_code": "TSW 018",
+                "long": "106.822631",
+                "lat": "-6.177770"
             },
             {
-                "buscode": "TSW 063",
-                "longitude": "106.823071",
-                "latitude": "-6.172153"
+                "bus_code": "TSW 063",
+                "long": "106.823071",
+                "lat": "-6.172153"
             }
             
         ]
