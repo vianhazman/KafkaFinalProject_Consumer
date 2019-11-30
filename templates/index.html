@@ -61,7 +61,7 @@
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
-            zoom: 12,
+            zoom: 9,
             center: [106.827159, -6.173671]
         });
 
@@ -136,22 +136,20 @@
         socket.onmessage = function(event) {
             var dataJson = JSON.parse(event.data);
             if (dataJson["type"]==="tracking"){
-                for (idx in dataJson["message"]){
-                    data = dataJson["message"][idx];
-                    if (tracking[data["bus_code"]]==null){
-                        color = getRandomColor()
-                        tracking[data["bus_code"]] = 
-                        {
-                            "marker":createMarker(data["bus_code"],color),
-                            "color":color,
-                            "bus_code":data["bus_code"]
-                        }
+                data = dataJson["message"];
+                if (tracking[data["bus_code"]]==null){
+                    color = getRandomColor()
+                    tracking[data["bus_code"]] = 
+                    {
+                        "marker":createMarker(data["bus_code"],color),
+                        "color":color,
+                        "bus_code":data["bus_code"]
                     }
-                    lngLat = [data["long"],data["lat"]];
-                    moveMarker(tracking[data["bus_code"]]["marker"], lngLat);
-                    if (following === data["bus_code"]){
-                        followBus(data["bus_code"])
-                    }
+                }
+                lngLat = [data["longitude"],data["latitude"]];
+                moveMarker(tracking[data["bus_code"]]["marker"], lngLat);
+                if (following === data["bus_code"]){
+                    followBus(data["bus_code"])
                 }
             }
             else if (dataJson["type"]==="trip"){

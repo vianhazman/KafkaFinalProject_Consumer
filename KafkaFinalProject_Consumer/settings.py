@@ -25,7 +25,7 @@ SECRET_KEY = 'ncfy$6$j9uq-h53%b_-+4!+07!y(9!f9%#q@ffjej9(%t+$^9_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -128,3 +128,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+KAFKA_PRODUCER_IP='localhost'
