@@ -23,7 +23,6 @@ def tracking_thread():
     #go to end of the stream
     consumer.seek_to_end()
     for message in consumer:
-        print(message.value)
         try:
             channel_layer = get_channel_layer()
             if ('TJ' in message.value['bus_code']):
@@ -33,15 +32,17 @@ def tracking_thread():
 
 def trip_thread():
     consumer = KafkaConsumer(
-        'triptj',
+        'pg1.public.trips',
         bootstrap_servers=[settings.KAFKA_PRODUCER_IP+':9092'],
         auto_offset_reset='earliest',
         enable_auto_commit=True,
         value_deserializer=lambda x: loads(x.decode('utf-8')))
     for message in consumer:
         try:
+            print(type(message.value['payload']['after']))
+            print(message.value['payload']['after'])
             channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": message.value})
+            async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": message.value['payload']['after']})
         except Exception as e:
             print(str(e))
         time.sleep(2)

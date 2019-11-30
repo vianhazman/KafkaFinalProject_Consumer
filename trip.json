@@ -1,31 +1,172 @@
 {
-    "data": [
-        [
+    "schema": {
+        "type": "struct",
+        "fields": [
             {
-                "trip_id": "2.F392",
-                "bus_code": "TSW 018",
-                "koridor": "0"
+                "type": "struct",
+                "fields": [
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "trip_id"
+                    },
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "bus_code"
+                    },
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "koridor"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": True,
+                        "name": "io.debezium.time.MicroTimestamp",
+                        "version": 1,
+                        "field": "timestamp"
+                    }
+                ],
+                "optional": True,
+                "name": "pg1.public.trips.Value",
+                "field": "before"
             },
             {
-                "trip_id": "2.F392",
-                "bus_code": "TSW 019",
-                "koridor": "0"
+                "type": "struct",
+                "fields": [
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "trip_id"
+                    },
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "bus_code"
+                    },
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "field": "koridor"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": True,
+                        "name": "io.debezium.time.MicroTimestamp",
+                        "version": 1,
+                        "field": "timestamp"
+                    }
+                ],
+                "optional": True,
+                "name": "pg1.public.trips.Value",
+                "field": "after"
             },
             {
-                "trip_id": "2.K003",
-                "bus_code": "TSW 020",
-                "koridor": "2K"
+                "type": "struct",
+                "fields": [
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "version"
+                    },
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "connector"
+                    },
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "name"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": False,
+                        "field": "ts_ms"
+                    },
+                    {
+                        "type": "string",
+                        "optional": True,
+                        "name": "io.debezium.data.Enum",
+                        "version": 1,
+                        "parameters": {
+                            "allowed": "true,last,false"
+                        },
+                        "default": "false",
+                        "field": "snapshot"
+                    },
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "db"
+                    },
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "schema"
+                    },
+                    {
+                        "type": "string",
+                        "optional": False,
+                        "field": "table"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": True,
+                        "field": "txId"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": True,
+                        "field": "lsn"
+                    },
+                    {
+                        "type": "int64",
+                        "optional": True,
+                        "field": "xmin"
+                    }
+                ],
+                "optional": False,
+                "name": "io.debezium.connector.postgresql.Source",
+                "field": "source"
             },
             {
-                "trip_id": "8.D002",
-                "bus_code": "    ",
-                "koridor": "8D"
+                "type": "string",
+                "optional": False,
+                "field": "op"
             },
             {
-                "trip_id": "11.Q001",
-                "bus_code": "TSW 063",
-                "koridor": "11"
+                "type": "int64",
+                "optional": True,
+                "field": "ts_ms"
             }
-        ]
-    ]
+        ],
+        "optional": False,
+        "name": "pg1.public.trips.Envelope"
+    },
+    "payload": {
+        "before": None,
+        "after": {
+            "trip_id": "8.002",
+            "bus_code": "DMR 5049",
+            "koridor": "8",
+            "timestamp": 1575128568816813
+        },
+        "source": {
+            "version": "0.10.0.Final",
+            "connector": "postgresql",
+            "name": "pg1",
+            "ts_ms": 1575129217401,
+            "snapshot": "true",
+            "db": "bus_trip",
+            "schema": "public",
+            "table": "trips",
+            "txId": 1399,
+            "lsn": 24290960,
+            "xmin": None
+        },
+        "op": "r",
+        "ts_ms": 1575129217401
+    }
 }

@@ -153,10 +153,8 @@
                 }
             }
             else if (dataJson["type"]==="trip"){
-                for (idx in dataJson["message"]){
-                    data = dataJson["message"][idx];
-                    trip[data["bus_code"]]=data
-                }
+                data = dataJson["message"];
+                trip[data["bus_code"]]=data
             }
             console.log(tracking)
             console.log(trip)
