@@ -11,6 +11,7 @@ from KafkaFinalProject_Consumer import settings
 
 trackingThread = None
 tripThread = None
+bus_code = "MYS"
 
 def tracking_thread():
     consumer = KafkaConsumer(
@@ -23,9 +24,10 @@ def tracking_thread():
     #go to end of the stream
     consumer.seek_to_end()
     for message in consumer:
+        print(message.value)
         try:
             channel_layer = get_channel_layer()
-            if ('TJ' in message.value['bus_code']):
+            if (bus_code in message.value['bus_code']):
                 async_to_sync(channel_layer.group_send)("events", {"type": "tracking.message","message": message.value})
         except Exception as e:
             print(str(e))
@@ -39,7 +41,6 @@ def trip_thread():
         value_deserializer=lambda x: loads(x.decode('utf-8')))
     for message in consumer:
         try:
-            print(type(message.value['payload']['after']))
             print(message.value['payload']['after'])
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": message.value['payload']['after']})
@@ -48,6 +49,8 @@ def trip_thread():
         time.sleep(2)
 
 def index(request):
+    global bus_code
+    bus_code = request.GET['bus_code']
     global trackingThread
     if trackingThread is None:
         thread = Thread(target=tracking_thread)
@@ -62,5 +65,5 @@ def index(request):
 
     print(settings.KAFKA_PRODUCER_IP)
 
-    response = {}
+    response = {"bus_code":bus_code}
     return render(request, 'index.html', response)

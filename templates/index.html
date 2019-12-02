@@ -15,7 +15,7 @@
         <div class="container">
             <div class="card my-4" style="">
                 <div class="card-header">
-                    Transjakarta Data Streaming Consumer
+                    Transjakarta Data Streaming Consumer | Bus Code <b>{{ bus_code }}</b>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -156,8 +156,6 @@
                 data = dataJson["message"];
                 trip[data["bus_code"]]=data
             }
-            console.log(tracking)
-            console.log(trip)
             resetTable()
         };
     </script>
