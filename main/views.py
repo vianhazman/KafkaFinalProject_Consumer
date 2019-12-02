@@ -3,6 +3,7 @@ from threading import Thread
 import websocket
 from websocket import create_connection
 import time, json
+from main.models import Bus
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from kafka import KafkaConsumer
@@ -12,6 +13,26 @@ from KafkaFinalProject_Consumer import settings
 trackingThread = None
 tripThread = None
 bus_code = "MYS"
+
+def storing_thread():
+    consumer = KafkaConsumer(
+        'trackingtj',
+        bootstrap_servers=[settings.KAFKA_PRODUCER_IP+':9092'],
+        group_id='my-group',
+        value_deserializer=lambda x: loads(x.decode('utf-8')))
+    consumer.poll()
+    consumer.seek_to_end()
+    for message in consumer:
+        print(message.value)
+        try:
+            buscode = message.value['bus_code']
+            trip_id = message.value['trip_id']
+            koridor = message.value['koridor']
+            gps = message.value['gps_timestamp']
+            Bus.create(buscode, trip_id, koridor, gps)
+        except Exception as e:
+            print(str(e))
+
 
 def tracking_thread():
     consumer = KafkaConsumer(
@@ -56,6 +77,9 @@ def index(request):
         thread = Thread(target=tracking_thread)
         thread.daemon = True
         thread.start()
+        thread_storage = Thread(target=storing_thread)
+        thread_storage.daemon = True
+        thread_storage.start()
 
     global tripThread
     if tripThread is None:
