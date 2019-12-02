@@ -9,10 +9,19 @@ from asgiref.sync import async_to_sync
 from kafka import KafkaConsumer
 from json import loads
 from KafkaFinalProject_Consumer import settings
+import queue
 
 trackingThread = None
 tripThread = None
+queueThread = None
 bus_code = "MYS"
+obj_queue = queue.Queue() 
+def queue_thread():
+    while True:
+        if (obj_queue.qsize() != 0):
+            obj = obj_queue.get()
+            obj.save()
+            print("[STORE] " + str(obj))
 
 def storing_thread1(message):
     msg = message.value['payload']['after']
@@ -22,8 +31,9 @@ def storing_thread1(message):
         koridor = msg['koridor']
         timestamp = msg['timestamp']
         bus = Bus.create(buscode, trip_id, koridor, timestamp)
-        bus.save()
-        print("[STORE] " + str(bus))
+        obj_queue.put(bus)
+        # bus.save()
+        # print("[STORE] " + str(bus))
     except Exception as e:
         print(str(e))
 
@@ -35,8 +45,9 @@ def storing_thread2(message):
         koridor = msg['longitude']
         timestamp = msg['gps_timestamp']
         ping = GpsPing.create(buscode, trip_id, koridor, timestamp)
-        ping.save()
-        print("[STORE] " + str(ping))
+        obj_queue.put(ping)
+        # ping.save()
+        # print("[STORE] " + str(ping))
     except Exception as e:
         print(str(e))
 
@@ -81,6 +92,9 @@ def trip_thread():
         time.sleep(2)
 
 def index(request):
+
+    global obj_queue
+
     global bus_code
     bus_code = request.GET['bus_code']
     global trackingThread
@@ -92,6 +106,12 @@ def index(request):
     global tripThread
     if tripThread is None:
         thread = Thread(target=trip_thread)
+        thread.daemon = True
+        thread.start()
+
+    global queueThread
+    if queueThread is None:
+        thread = Thread(target=queue_thread)
         thread.daemon = True
         thread.start()
 
