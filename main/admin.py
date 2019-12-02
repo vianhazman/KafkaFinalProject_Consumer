@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Bus
+from .models import GpsPing
+
+
+admin.site.register(Bus)
+admin.site.register(GpsPing)

@@ -62,7 +62,6 @@ def tracking_thread():
         bootstrap_servers=[settings.KAFKA_PRODUCER_IP+':9092'],
         group_id='my-group',
         value_deserializer=lambda x: loads(x.decode('utf-8')))
-    #dummy poll
     consumer.poll()
     #go to end of the stream
     consumer.seek_to_end()
@@ -71,7 +70,9 @@ def tracking_thread():
         try:
             channel_layer = get_channel_layer()
             if (bus_code in message.value['bus_code']):
+                #send data ke front end via websocket
                 async_to_sync(channel_layer.group_send)("events", {"type": "tracking.message","message": message.value})
+            #trigger storing thread untuk melakukan penyimpanan data ke data warehouse
             thread = Thread(target=storing_thread2,args=(message,))
             thread.start()
         except Exception as e:
@@ -89,7 +90,11 @@ def trip_thread():
             msg = message.value['payload']['after']
             print("[VIZ] "+str(msg))
             channel_layer = get_channel_layer()
+            
+            #send data ke front end via websocket
             async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": msg})
+
+            #trigger storing thread untuk melakukan penyimpanan data ke data warehouse
             thread = Thread(target=storing_thread1,args=(msg,))
             thread.start()
         except Exception as e:

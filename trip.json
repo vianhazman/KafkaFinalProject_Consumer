@@ -7,28 +7,28 @@
                 "fields": [
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "trip_id"
                     },
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "bus_code"
                     },
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "koridor"
                     },
                     {
                         "type": "int64",
-                        "optional": True,
+                        "optional": "True",
                         "name": "io.debezium.time.MicroTimestamp",
                         "version": 1,
                         "field": "timestamp"
                     }
                 ],
-                "optional": True,
+                "optional": "True",
                 "name": "pg1.public.trips.Value",
                 "field": "before"
             },
@@ -37,28 +37,28 @@
                 "fields": [
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "trip_id"
                     },
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "bus_code"
                     },
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "field": "koridor"
                     },
                     {
                         "type": "int64",
-                        "optional": True,
+                        "optional": "True",
                         "name": "io.debezium.time.MicroTimestamp",
                         "version": 1,
                         "field": "timestamp"
                     }
                 ],
-                "optional": True,
+                "optional": "True",
                 "name": "pg1.public.trips.Value",
                 "field": "after"
             },
@@ -67,27 +67,27 @@
                 "fields": [
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "version"
                     },
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "connector"
                     },
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "name"
                     },
                     {
                         "type": "int64",
-                        "optional": False,
+                        "optional": "False",
                         "field": "ts_ms"
                     },
                     {
                         "type": "string",
-                        "optional": True,
+                        "optional": "True",
                         "name": "io.debezium.data.Enum",
                         "version": 1,
                         "parameters": {
@@ -98,55 +98,55 @@
                     },
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "db"
                     },
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "schema"
                     },
                     {
                         "type": "string",
-                        "optional": False,
+                        "optional": "False",
                         "field": "table"
                     },
                     {
                         "type": "int64",
-                        "optional": True,
+                        "optional": "True",
                         "field": "txId"
                     },
                     {
                         "type": "int64",
-                        "optional": True,
+                        "optional": "True",
                         "field": "lsn"
                     },
                     {
                         "type": "int64",
-                        "optional": True,
+                        "optional": "True",
                         "field": "xmin"
                     }
                 ],
-                "optional": False,
+                "optional": "False",
                 "name": "io.debezium.connector.postgresql.Source",
                 "field": "source"
             },
             {
                 "type": "string",
-                "optional": False,
+                "optional": "False",
                 "field": "op"
             },
             {
                 "type": "int64",
-                "optional": True,
+                "optional": "True",
                 "field": "ts_ms"
             }
         ],
-        "optional": False,
+        "optional": "False",
         "name": "pg1.public.trips.Envelope"
     },
     "payload": {
-        "before": None,
+        "before": "None",
         "after": {
             "trip_id": "8.002",
             "bus_code": "DMR 5049",
@@ -164,7 +164,7 @@
             "table": "trips",
             "txId": 1399,
             "lsn": 24290960,
-            "xmin": None
+            "xmin": "None"
         },
         "op": "r",
         "ts_ms": 1575129217401
