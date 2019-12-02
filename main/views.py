@@ -10,30 +10,35 @@ from kafka import KafkaConsumer
 from json import loads
 from KafkaFinalProject_Consumer import settings
 import queue
+import time
+
 
 trackingThread = None
 tripThread = None
 queueThread = None
 bus_code = "MYS"
 obj_queue = queue.Queue() 
-def queue_thread():
+
+def put_queue_thread(obj):
+    obj_queue.put(obj)
+    
+def save_queue_thread():
     while True:
         if (obj_queue.qsize() != 0):
             obj = obj_queue.get()
             obj.save()
             print("[STORE] " + str(obj))
 
-def storing_thread1(message):
-    msg = message.value['payload']['after']
+
+def storing_thread1(msg):
     try:
         buscode = msg['bus_code']
         trip_id = msg['trip_id']
         koridor = msg['koridor']
         timestamp = msg['timestamp']
         bus = Bus.create(buscode, trip_id, koridor, timestamp)
-        obj_queue.put(bus)
-        # bus.save()
-        # print("[STORE] " + str(bus))
+        thread = Thread(target=put_queue_thread,args=(bus,))
+        thread.start()
     except Exception as e:
         print(str(e))
 
@@ -45,9 +50,8 @@ def storing_thread2(message):
         koridor = msg['longitude']
         timestamp = msg['gps_timestamp']
         ping = GpsPing.create(buscode, trip_id, koridor, timestamp)
-        obj_queue.put(ping)
-        # ping.save()
-        # print("[STORE] " + str(ping))
+        thread = Thread(target=put_queue_thread,args=(ping,))
+        thread.start()
     except Exception as e:
         print(str(e))
 
@@ -63,7 +67,7 @@ def tracking_thread():
     #go to end of the stream
     consumer.seek_to_end()
     for message in consumer:
-        print(message.value)
+        print("[VIZ] "+str(message.value))
         try:
             channel_layer = get_channel_layer()
             if (bus_code in message.value['bus_code']):
@@ -82,10 +86,11 @@ def trip_thread():
         value_deserializer=lambda x: loads(x.decode('utf-8')))
     for message in consumer:
         try:
-            print(message.value['payload']['after'])
+            msg = message.value['payload']['after']
+            print("[VIZ] "+str(msg))
             channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": message.value['payload']['after']})
-            thread = Thread(target=storing_thread1,args=(message,))
+            async_to_sync(channel_layer.group_send)("events", {"type": "trip.message","message": msg})
+            thread = Thread(target=storing_thread1,args=(msg,))
             thread.start()
         except Exception as e:
             print(str(e))
@@ -111,7 +116,7 @@ def index(request):
 
     global queueThread
     if queueThread is None:
-        thread = Thread(target=queue_thread)
+        thread = Thread(target=save_queue_thread)
         thread.daemon = True
         thread.start()
 
